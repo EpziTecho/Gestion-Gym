@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { routes } from 'src/app/shared/routes/routes';
 
@@ -28,9 +29,9 @@ export class LoginComponent implements OnInit {
 
   constructor(public auth: AuthService,public router: Router) {}
   ngOnInit(): void {
-    if (localStorage.getItem('authenticated')) {
-      localStorage.removeItem('authenticated');
-    }
+    // if (localStorage.getItem('authenticated')) {
+    //   localStorage.removeItem('authenticated');
+    // }
   }
 
     loginFormSubmit() {
@@ -41,6 +42,9 @@ export class LoginComponent implements OnInit {
           console.log(resp); 
           if(resp){
             //login exitoso
+          setTimeout(() => {
+            this.auth.saveLocalStorage(resp);
+          },50); // retraso de 50 milisegundos para que se guarde el token y el usuario en el local storage antes de redireccionar al dashboard
           this.router.navigate([routes.adminDashboard]);
           } else{
             //login fallido
