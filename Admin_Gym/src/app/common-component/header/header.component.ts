@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth/auth.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { SideBarService } from 'src/app/shared/side-bar/side-bar.service';
 
@@ -9,12 +10,14 @@ import { SideBarService } from 'src/app/shared/side-bar/side-bar.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+
+
   public routes = routes;
   public openBox = false;
   public miniSidebar  = false;
   public addClass = false;
 
-  constructor(public router: Router,private sideBar: SideBarService) {
+  constructor(public router: Router,private sideBar: SideBarService, public auth: AuthService) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
       if (res == 'true') {
         this.miniSidebar = true;
@@ -23,6 +26,8 @@ export class HeaderComponent {
       }
     });
   }
+
+  
 
   openBoxFunc() {
     this.openBox = !this.openBox;
@@ -34,7 +39,9 @@ export class HeaderComponent {
       mainWrapper.classList.remove('open-msg-box');
     }
   }
-
+logout(){
+  this.auth.logout();
+}
   public toggleSideBar(): void {
     this.sideBar.switchSideMenuPosition();
   }

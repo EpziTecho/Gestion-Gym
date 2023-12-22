@@ -41,4 +41,11 @@ saveLocalStorage(auth:any){
   }
   return false;
 }
+
+logout() {
+  localStorage.removeItem('token'); // Se remueve el token del local storage
+  localStorage.removeItem('user'); // Se remueve el usuario del local storage
+  localStorage.removeItem('authenticated'); // Se remueve el authenticated del local storage
+  this.router.navigate([routes.login]); // Se redirige al login
+}
 }
