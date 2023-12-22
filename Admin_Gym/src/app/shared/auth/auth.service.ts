@@ -22,8 +22,8 @@ export class AuthService {
     return this.http.post(URL,{email: email,password: password}).pipe(
       map((auth: any) => {
         console.log(auth);
-        this.saveLocalStorage(auth);
-        return 1;
+       const result= this.saveLocalStorage(auth);
+        return result;
       }), 
       catchError((error:any) => {
       console.log(error);
@@ -36,6 +36,7 @@ saveLocalStorage(auth:any){
   if(auth && auth.access_token){
     localStorage.setItem('token', auth.access_token); // Aqui se guarda el token en el local storage
     localStorage.setItem('user', JSON.stringify(auth.user)); // Aqui se guarda el usuario en el local storage , JSON.stringify() convierte el objeto a string
+    localStorage.setItem('authenticated', 'true');
     return true;
   }
   return false;
